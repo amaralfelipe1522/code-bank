@@ -5,6 +5,9 @@ import (
 	"fmt"
 	"log"
 	_ "github.com/lib/pq"
+	"github.com/amaralfelipe1522/codebank/domain"
+	"github.com/amaralfelipe1522/codebank/usecase"
+	"github.com/amaralfelipe1522/codebank/infrastructure/repository"
 )
 
 func main() {
@@ -22,7 +25,11 @@ func main() {
 	cc.Balance = 0
 
 	repo := repository.NewTransactionRepositoryDb(db)
-	repo.CreateCreditCard()
+	err := repo.CreateCreditCard(*cc)
+
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 func setupTransactionUseCase(db *sql.DB) usecase.UseCaseTransaction {
@@ -33,7 +40,7 @@ func setupTransactionUseCase(db *sql.DB) usecase.UseCaseTransaction {
 }
 
 func setupDb() *sql.DB {
-	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname%s sslmode=disable",
+	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
 	"db",
 	"5432",
 	"postgres",

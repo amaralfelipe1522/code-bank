@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"github.com/amaralfelipe1522/full-cycle-3.0/codebank/domain"
-	"github.com/amaralfelipe1522/full-cycle-3.0/codebank/dto/"
+	"github.com/amaralfelipe1522/codebank/domain"
+	"github.com/amaralfelipe1522/codebank/dto"
 	"time"
 )
 
@@ -12,7 +12,7 @@ type UseCaseTransaction struct {
 }
 
 func NewUseCaseTransaction(transactionRepository domain.TransactionRepository) UseCaseTransaction {
-	return UseCaseTransaction(TransactionRepository: transactionRepository)
+	return UseCaseTransaction{TransactionRepository: transactionRepository}
 }
 
 func (u UseCaseTransaction) ProcessTransaction(transactionDto dto.Transaction) (domain.Transaction, error) {
@@ -39,7 +39,7 @@ func (u UseCaseTransaction) ProcessTransaction(transactionDto dto.Transaction) (
 
 func (u UseCaseTransaction) hydrateCreditCard(transactionDto dto.Transaction) *domain.CreditCard{
 	 creditCard := domain.NewCreditCard()
-	 creditCard.Name = transactionDto.Nome
+	 creditCard.Name = transactionDto.Name
 	 creditCard.Number = transactionDto.Number
 	 creditCard.ExpirationMonth = transactionDto.ExpirationMonth
 	 creditCard.ExpirationYear = transactionDto.ExpirationYear
@@ -48,9 +48,9 @@ func (u UseCaseTransaction) hydrateCreditCard(transactionDto dto.Transaction) *d
 	 return creditCard
 }
  
-func (u UseCaseTransaction) newTransaction(transaction dto.Transaction, cc domain.CreditCard) *domain.Transaction {
+func (u UseCaseTransaction) NewTransaction(transaction dto.Transaction, cc domain.CreditCard) *domain.Transaction {
 	t := domain.NewTransaction()
-	t.CreditCard = cc.ID
+	t.CreditCardId = cc.ID
 	t.Amount = transaction.Amount
 	t.Store =  transaction.Store
 	t.Description = transaction.Description

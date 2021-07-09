@@ -1,6 +1,10 @@
 package repository
 
-import "database/sql"
+import (
+	"database/sql"
+	"github.com/amaralfelipe1522/codebank/domain"
+	"errors"
+)
 
 type TransactionRepositoryDb struct {
 	db *sql.DB
@@ -70,7 +74,7 @@ func (t *TransactionRepositoryDb) updateBalance(creditCard domain.CreditCard) er
 }
 
 func (t *TransactionRepositoryDb) CreateCreditCard(creditCard domain.CreditCard) error {
-	stmt, err := t.db.Prepare(`INSERT INTO credit_cards(id, name, number, expiration_month, expiration_year, cvv, balance, limit) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`)
+	stmt, err := t.db.Prepare(`INSERT INTO credit_cards(id, name, number, expiration_month, expiration_year, cvv, balance, balance_limit) VALUES($1, $2, $3, $4, $5, $6, $7, $8)`)
 
 	if err != nil {
 		return err
