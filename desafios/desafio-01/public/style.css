@@ -1,0 +1,18 @@
+body {
+    background-image:url(./space-jam.jpg);
+    background-position:bottom;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#body-text {
+    height: 95vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center
+}
+
+#body-text h1 {
+    font-family: 'Trebuchet MS', sans-serif
+}
