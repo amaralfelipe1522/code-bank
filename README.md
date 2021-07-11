@@ -1,4 +1,4 @@
-# full-cycle-3.0
+# Code Bank
 Repositório referente a maratona Full Cycle 3.0
 
 ### Repositório
