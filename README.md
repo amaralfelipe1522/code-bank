@@ -4,11 +4,7 @@ Repositório contendo um exemplo de um sistema bancario criado duante a maratona
 ## Dinâmica do Sistema
 ![Dinâmica do Sistema](./fluxo.png)
 
-
-## Repositório
-https://github.com/codeedu/imersao-fsfc2
-
-## TODO
+## TO DO
 - Implementar transações de Commit e Rollback;
 - Criptografar o número do cartão de crédito;
 - Criar as tabelas automaticamente durante o build da imagem;
