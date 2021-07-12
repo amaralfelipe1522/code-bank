@@ -1,14 +1,17 @@
 package usecase
 
 import (
+	"encoding/json"
 	"github.com/amaralfelipe1522/codebank/domain"
 	"github.com/amaralfelipe1522/codebank/dto"
+	"github.com/amaralfelipe1522/codebank/infrastructure/kafka"
 	"time"
 )
 
 // define qual o ciclo de operações no processo de transação
 type UseCaseTransaction struct {
 	TransactionRepository domain.TransactionRepository
+	KafkaProducer kafka.KafkaProducer
 }
 
 func NewUseCaseTransaction(transactionRepository domain.TransactionRepository) UseCaseTransaction {
@@ -30,6 +33,19 @@ func (u UseCaseTransaction) ProcessTransaction(transactionDto dto.Transaction) (
 
 	err = u.TransactionRepository.SaveTransaction(*t, *creditCard)
 
+	if err != nil {
+		return domain.Transaction{}, err
+	}
+
+	transactionDto.ID = t.ID
+	transactionDto.CreatedAt = t.CreatedAt
+	
+	transactionJson, err := json.Marshal(transactionDto)
+	if err != nil {
+		return domain.Transaction{}, err
+	}
+
+	err = u.KafkaProducer.Publish(string(transactionJson), "payments")
 	if err != nil {
 		return domain.Transaction{}, err
 	}
