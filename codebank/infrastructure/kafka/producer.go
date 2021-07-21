@@ -1,8 +1,7 @@
 package kafka
 
 import (
-	ckafka "github.com/confluentic/confluent-kafka-go/kafka"
-	"fmt"
+	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
 )
 
 type KafkaProducer struct {
@@ -16,14 +15,10 @@ func NewKafkaProducer() KafkaProducer {
 // Recebe o host e a porta do produtor para se conectar
 func (k *KafkaProducer) SetupProducer(bootstrapServer string) {
 	configMap := &ckafka.ConfigMap{
-		"bootstrap.servers":bootstrapServer
+		"bootstrap.servers": bootstrapServer,
 	}
 
-	k.Producer, err = ckafka.NewProducer(configMap)
-
-	if err != nil {
-		fmt.Println(err)
-	}
+	k.Producer, _ = ckafka.NewProducer(configMap)
 }
 
 func (k *KafkaProducer) Publish(msg string, topic string) error {
@@ -32,7 +27,7 @@ func (k *KafkaProducer) Publish(msg string, topic string) error {
 		Value: []byte(msg),
 	}
 
-	err := k.Producer.Produce(message, deliveryChan:nil)
+	err := k.Producer.Produce(message, nil)
 
 	if err != nil {
 		return err
